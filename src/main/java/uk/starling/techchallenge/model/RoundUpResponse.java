@@ -1,7 +1,5 @@
 package uk.starling.techchallenge.model;
 
-import io.swagger.annotations.ApiModelProperty;
-
 import javax.validation.constraints.NotNull;
 
 public class RoundUpResponse extends StarlingRoundUpResponse {

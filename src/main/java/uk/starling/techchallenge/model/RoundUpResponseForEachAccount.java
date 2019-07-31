@@ -1,6 +1,5 @@
 package uk.starling.techchallenge.model;
 
-import io.swagger.annotations.ApiModelProperty;
 
 import javax.validation.constraints.NotNull;
 import java.util.List;
