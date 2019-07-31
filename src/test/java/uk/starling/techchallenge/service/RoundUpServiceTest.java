@@ -5,7 +5,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import uk.starling.techchallenge.RoundUpTransactionBetweenRequest;
 import uk.starling.techchallenge.client.StarlingClient;
 import uk.starling.techchallenge.client.StarlingClient.HttpMethod;
@@ -24,7 +24,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.mockito.ArgumentMatchers.*;
 
-@RunWith(SpringRunner.class)
+@RunWith(MockitoJUnitRunner.class)
 public class RoundUpServiceTest {
     @Mock
     private StarlingClient starlingClient;
@@ -34,6 +34,8 @@ public class RoundUpServiceTest {
 
     @Test
     public void testRoundUp_happy() throws IOException, URISyntaxException {
+        starlingClient.setAccesToken("some-access-token");
+
         GetStarlingAccount getStarlingAccount = createGetStarlingAccount();
         GetTransaction getTransaction = createGetTransaction();
         StarlingRoundUpResponse starlingRoundUpResponse = createStarlingRoundUpResponse();
