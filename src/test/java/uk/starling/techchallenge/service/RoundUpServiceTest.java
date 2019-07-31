@@ -14,6 +14,7 @@ import uk.starling.techchallenge.service.RoundUpService;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -53,6 +54,8 @@ public class RoundUpServiceTest {
 
         assertNotNull(roundUpResponseForEachAccount);
         assertEquals(1, roundUpResponseForEachAccount.getRoundUpResponses().size());
+        assertEquals(new BigDecimal(0.88).setScale(2, RoundingMode.HALF_DOWN), roundUpResponseForEachAccount.getRoundUpResponses().get(0).getRoundUpAmount());
+
     }
 
     private GetStarlingAccount createGetStarlingAccount() {
