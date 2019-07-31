@@ -40,7 +40,7 @@ public class RoundUpService {
         StarlingRoundUpResponse starlingRoundUpResponse = null;
 
         for (StarlingAccount account : starlingAccounts.getAccounts()) {
-            BigDecimal roundUpAmount = null;
+            BigDecimal roundUpAmount = BigDecimal.ZERO;
             RoundUpResponse roundUpResponse = new RoundUpResponse();
             GetTransaction transactions = getTransactions(request, account);
 
@@ -48,7 +48,7 @@ public class RoundUpService {
                 BigDecimal minorUnits = feedItem.getAmount().getMinorUnits();
                 BigDecimal decimalUnit = minorUnits.divide(new BigDecimal(100));
 
-                roundUpAmount = decimalUnit.setScale(0, RoundingMode.CEILING).subtract(decimalUnit);
+                roundUpAmount = roundUpTheAmount(roundUpAmount, decimalUnit);
                 currency = feedItem.getAmount().getCurrency();
             }
 
@@ -57,19 +57,25 @@ public class RoundUpService {
             url = new URL(baseUrl + "/account/" + account.getAccountUid() + "/savings-goals");
             starlingRoundUpResponse = starlingClient.sendRequest(url, PUT, starlingRoundUpRequest, StarlingRoundUpResponse.class);
 
-            setRoundUpResponseList(starlingRoundUpResponse, account, roundUpResponse, roundUpResponses);
+            setRoundUpResponseList(starlingRoundUpResponse, account, roundUpResponse, roundUpResponses, roundUpAmount);
             roundUpResponseForEachAccount.setRoundUpResponses(roundUpResponses);
         }
 
         return roundUpResponseForEachAccount;
     }
 
-    private void setRoundUpResponseList(StarlingRoundUpResponse starlingRoundUpResponse, StarlingAccount account, RoundUpResponse roundUpResponse, List<RoundUpResponse> roundUpResponses) {
+    private BigDecimal roundUpTheAmount(BigDecimal roundUpAmount, BigDecimal decimalUnit) {
+        roundUpAmount = roundUpAmount.add((decimalUnit.setScale(0, RoundingMode.CEILING).subtract(decimalUnit)));
+        return roundUpAmount;
+    }
+
+    private void setRoundUpResponseList(StarlingRoundUpResponse starlingRoundUpResponse, StarlingAccount account, RoundUpResponse roundUpResponse, List<RoundUpResponse> roundUpResponses, BigDecimal roundUpAmount) {
         roundUpResponse.setSavingsGoalUid(starlingRoundUpResponse.getSavingsGoalUid());
         roundUpResponse.setErrors(starlingRoundUpResponse.getErrors());
         roundUpResponse.setSuccess(starlingRoundUpResponse.isSuccess());
         roundUpResponse.setErrors(starlingRoundUpResponse.getErrors());
         roundUpResponse.setAccountId(account.getAccountUid());
+        roundUpResponse.setRoundUpAmount(roundUpAmount);
 
         roundUpResponses.add(roundUpResponse);
     }
