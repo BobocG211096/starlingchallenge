@@ -1,6 +1,5 @@
 package uk.starling.techchallenge.validator;
 
-
 import uk.starling.techchallenge.RoundUpTransactionBetweenRequest;
 import uk.starling.techchallenge.constraint.RoundUpRequestTransactionTimestampConstraint;
 

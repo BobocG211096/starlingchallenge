@@ -1,11 +1,9 @@
 package uk.starling.techchallenge.model;
 
-
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class RoundUpResponseForEachAccount {
-
     //List of round up responses for each account of a customer.
     @NotNull
     List<RoundUpResponse> roundUpResponses;
