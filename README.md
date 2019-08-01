@@ -23,4 +23,4 @@ In return the application will send a response containing a list of all the roun
     ]
 }
 ```
-Where the ```accountId``` is the account of the customer which all transactions were rounded up and also the ```roundUpAmount``` which is the total of amount rounded up from each transaction.
+Where the ```accountId``` is the account of the customer which all transactions were rounded up and also the ```roundUpAmount``` which is the total of amount rounded up from each transaction for that specific account id.
